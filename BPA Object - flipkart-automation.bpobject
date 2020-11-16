@@ -799,6 +799,22 @@
       <zoom version="2">1.25</zoom>
     </view>
   </subsheet>
+  <subsheet subsheetid="1804e9df-c5b9-4688-b655-525a7f33b559" type="Normal" published="False">
+    <name>data verification</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>105</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="ac1cbe06-7c11-422e-b827-fb544e97e771" type="Normal" published="False">
+    <name>verification of changes in data</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
   <stage stageid="5300546a-2f1a-4d6c-bd01-9945f9472e50" name="Start" type="Start">
     <loginhibit />
     <display x="15" y="-105" />
@@ -1235,5 +1251,260 @@ You will not be able to call this action from a business process, nor will it be
     <display x="45" y="45" />
     <onsuccess>dbb84c6a-1ad9-4b4b-8caf-0cb5a23f19d6</onsuccess>
     <processid>fa359fa2-4e82-4804-a07f-370adcacfabb</processid>
+  </stage>
+  <stage stageid="790a2b9e-02af-45e2-9cab-e575d0866114" name="data verification" type="SubSheetInfo">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="75e4d6ca-0c82-4b2c-964b-f1f51a70cd55" name="Start" type="Start">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit />
+    <display x="30" y="-105" />
+    <onsuccess>2880d724-ba7d-4ef2-9a4c-c6aa52aa0cd6</onsuccess>
+  </stage>
+  <stage stageid="143af6f4-15fd-4008-9540-f51047b7d6c4" name="End" type="End">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit />
+    <display x="30" y="225" />
+  </stage>
+  <stage stageid="2880d724-ba7d-4ef2-9a4c-c6aa52aa0cd6" name="create instance" type="Action">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="-45" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle2" />
+    </outputs>
+    <onsuccess>0d8ee2c2-eafa-46b0-b64f-edbf6684182a</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="0d8ee2c2-eafa-46b0-b64f-edbf6684182a" name="ms excel open workbook" type="Action">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="0" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle2]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\Snehil\Desktop\FlipkartAutomation-BluePrism\flipkart product details.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name2" />
+    </outputs>
+    <onsuccess>2d01c70e-f6e0-42ed-a11a-fc1da7ba5b60</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="fd9ca2fd-f013-45d4-b2d2-a11707bfca06" name="handle2" type="Data">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="165" y="-45" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="edf9e800-a901-4d58-9241-9878204d4f23" name="Workbook Name2" type="Data">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="165" y="0" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2d01c70e-f6e0-42ed-a11a-fc1da7ba5b60" name="MS Excel VBO::Get Number Of Rows" type="Action">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="45" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the number of rows is required. The default of zero indicates the currently active instance." expr="[handle2]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook on which the number of rows is required. The default empty text value indicates the currently active workbook on the specified instance." expr="[Workbook Name2]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the number of rows is required. The default empty text value indicates the currently active sheet on the specified workbook." expr="&quot;Sheet1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Number of rows" friendlyname="Number of rows" narrative="The number of rows." stage="Number of rows" />
+    </outputs>
+    <onsuccess>121a7101-16dd-4dc0-98cc-e6499568ae8b</onsuccess>
+    <resource object="MS Excel VBO" action="Get Number Of Rows" />
+  </stage>
+  <stage stageid="29a6a74a-299e-438e-8be5-469dcfc5186e" name="Number of rows" type="Data">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="165" y="45" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="121a7101-16dd-4dc0-98cc-e6499568ae8b" name="check no of rows" type="Decision">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit />
+    <display x="30" y="105" />
+    <decision expression="[Number of rows] = 0" />
+    <ontrue>1a08bd97-a27d-48f6-a76e-4f3ad77b77ad</ontrue>
+    <onfalse>4e1599c3-a94e-46f0-ba57-749c2bde934d</onfalse>
+  </stage>
+  <stage stageid="1a08bd97-a27d-48f6-a76e-4f3ad77b77ad" name="empty workbook Exception" type="Exception">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="135" y="105" />
+    <exception localized="yes" type="System" detail="&quot;worksheet is empty&quot;" />
+  </stage>
+  <stage stageid="4e1599c3-a94e-46f0-ba57-749c2bde934d" name="match no of products" type="Decision">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit />
+    <display x="30" y="165" />
+    <decision expression="[number of products] = [Number of rows] -1" />
+    <ontrue>143af6f4-15fd-4008-9540-f51047b7d6c4</ontrue>
+    <onfalse>6875d654-17fd-4497-974b-2231498de872</onfalse>
+  </stage>
+  <stage stageid="29fd68ee-903b-4a03-8328-4d0c94b57b33" name="number of products" type="Data">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <loginhibit />
+    <display x="-120" y="120" />
+    <datatype>number</datatype>
+    <initialvalue>10</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6875d654-17fd-4497-974b-2231498de872" name="less data reteived Exception" type="Exception">
+    <subsheetid>1804e9df-c5b9-4688-b655-525a7f33b559</subsheetid>
+    <display x="135" y="165" />
+    <exception localized="yes" type="System" detail="&quot;less data retreived&quot;" />
+  </stage>
+  <stage stageid="72ba611a-c0f6-4ede-b304-da2d4813f2e2" name="verification of changes in data" type="SubSheetInfo">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="812ac70e-c79c-4d76-8bb0-b9fe98f7904c" name="Start" type="Start">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit />
+    <display x="30" y="-105" />
+    <onsuccess>78b3625d-a85a-4072-935e-4ba568a09ecc</onsuccess>
+  </stage>
+  <stage stageid="deab72c7-0734-4ce8-bab0-bff4c7a4e8b5" name="End" type="End">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit />
+    <display x="30" y="195" />
+  </stage>
+  <stage stageid="78b3625d-a85a-4072-935e-4ba568a09ecc" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="-60" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle1" />
+    </outputs>
+    <onsuccess>4ee44a28-a0a8-4a91-8363-15f1be8c3479</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="ea08518a-4ef7-41fa-b2ef-e34b4514a575" name="handle1" type="Data">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <display x="120" y="-60" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4ee44a28-a0a8-4a91-8363-15f1be8c3479" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="0" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle1]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\Snehil\Desktop\FlipkartAutomation-BluePrism\flipkart product details.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name1" />
+    </outputs>
+    <onsuccess>8713c028-593a-486e-b9dd-4ae45198df6e</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="84e8adc2-bfbd-4b98-82de-2dfc0c814d4d" name="Workbook Name1" type="Data">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <display x="120" y="-15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8713c028-593a-486e-b9dd-4ae45198df6e" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="60" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle1]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name1]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data1" />
+    </outputs>
+    <onsuccess>1a822a81-6457-4fa6-9a9f-776efa84a938</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="fa5859fc-96ed-4d24-8574-bdb9f22bea1a" name="Data1" type="Collection">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <display x="120" y="30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1a822a81-6457-4fa6-9a9f-776efa84a938" name="Utility - Collection Manipulation::Copy Rows" type="Action">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="30" y="105" />
+    <inputs>
+      <input type="number" name="Start Row" friendlyname="Start Row" narrative="The row index to start copying from. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="0" />
+      <input type="number" name="Number of Rows to Copy" friendlyname="Number of Rows to Copy" narrative="The number of rows to copy." expr="1" />
+      <input type="collection" name="Source Collection" friendlyname="Source Collection" narrative="The collection to copy." expr="[Data1]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Output Collection" friendlyname="Output Collection" narrative="The copied collection." stage="single row" />
+    </outputs>
+    <onsuccess>64921a33-020f-4a3d-a29d-77697450cb41</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Copy Rows" />
+  </stage>
+  <stage stageid="5b2967f1-5ccc-4e73-84e9-1dc6b9bf6146" name="single row" type="Collection">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit />
+    <display x="120" y="90" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <singlerow />
+      <field name="name" type="text" />
+      <field name="price" type="text" />
+      <field name="rating" type="text" />
+    </collectioninfo>
+    <initialvalue>
+      <singlerow />
+      <row>
+        <field name="name" type="text" value="" />
+        <field name="price" type="text" value="" />
+        <field name="rating" type="text" value="00:00" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="7b333dcd-19b0-4b74-89d3-9b694ed4d4e2" name="product name" type="Data">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit />
+    <display x="-105" y="60" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">Apple iPhone 11 (White, 64 GB) (Includes EarPods, Power Adapter)</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="64921a33-020f-4a3d-a29d-77697450cb41" name="first product name " type="Decision">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <loginhibit />
+    <display x="30" y="150" />
+    <decision expression="[product name] = [single row.name]" />
+    <ontrue>deab72c7-0734-4ce8-bab0-bff4c7a4e8b5</ontrue>
+    <onfalse>2cb333be-d3c3-401a-a21e-bc4e4f0de5bd</onfalse>
+  </stage>
+  <stage stageid="2cb333be-d3c3-401a-a21e-bc4e4f0de5bd" name="name did not match Exception" type="Exception">
+    <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
+    <display x="120" y="150" />
+    <exception localized="yes" type="System" detail="&quot;name did not match&quot;" />
   </stage>
 </process>
