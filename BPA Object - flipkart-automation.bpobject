@@ -787,7 +787,7 @@
     <name>read data</name>
     <view>
       <camerax>0</camerax>
-      <cameray>105</cameray>
+      <cameray>-21</cameray>
       <zoom version="2">1.25</zoom>
     </view>
   </subsheet>
@@ -795,7 +795,7 @@
     <name>adding data to excel sheet</name>
     <view>
       <camerax>0</camerax>
-      <cameray>42</cameray>
+      <cameray>21</cameray>
       <zoom version="2">1.25</zoom>
     </view>
   </subsheet>
@@ -812,6 +812,22 @@
     <view>
       <camerax>0</camerax>
       <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="d18998e7-b98a-4e37-b10e-6608803b4b77" type="Normal" published="False">
+    <name>insert into DB</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>105</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="6aa18b17-1732-46d8-967a-e6e1147a4b13" type="Normal" published="False">
+    <name>check null values</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>315</cameray>
       <zoom version="2">1.25</zoom>
     </view>
   </subsheet>
@@ -1506,5 +1522,286 @@ You will not be able to call this action from a business process, nor will it be
     <subsheetid>ac1cbe06-7c11-422e-b827-fb544e97e771</subsheetid>
     <display x="120" y="150" />
     <exception localized="yes" type="System" detail="&quot;name did not match&quot;" />
+  </stage>
+  <stage stageid="41d5daf7-4985-4312-be4b-215efb634655" name="insert into DB" type="SubSheetInfo">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="6524a307-d754-4f53-979e-44853962bcbc" name="Start" type="Start">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit />
+    <display x="15" y="-120" />
+    <onsuccess>e713cb6f-927d-4c22-9dd9-8364b1b0157a</onsuccess>
+  </stage>
+  <stage stageid="4301157a-3d16-4f01-9e3f-801bfea12842" name="End" type="End">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit />
+    <display x="15" y="240" />
+  </stage>
+  <stage stageid="e713cb6f-927d-4c22-9dd9-8364b1b0157a" name="Adding Data in Excel Sheet" type="SubSheet">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit />
+    <display x="15" y="-60" />
+    <onsuccess>393ba35f-eac3-438a-83ca-af1ebf75aab7</onsuccess>
+    <processid>968104bf-5a0c-4d0e-b0bf-2341cce391a2</processid>
+  </stage>
+  <stage stageid="393ba35f-eac3-438a-83ca-af1ebf75aab7" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>6d56ba55-d4be-40fa-a693-4cfdcb956dd4</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="98be29c3-9d34-4e0c-b238-7a1f33ac9fb3" name="Data" type="Collection">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <display x="150" y="-15" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="name" type="text" />
+      <field name="price" type="text" />
+      <field name="rating" type="text" />
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="name" type="text" value="" />
+        <field name="price" type="text" value="" />
+        <field name="rating" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="6d56ba55-d4be-40fa-a693-4cfdcb956dd4" name="Data - SQL Server::Set Connection" type="Action">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <inputs>
+      <input type="text" name="Server" friendlyname="Server" narrative="The name of the server and, if necessary, instance name of the SQL Server instance to connect to" expr="&quot;LAPTOP-T69UTPHB\SQLEXPRESS&quot;" />
+      <input type="text" name="Database" friendlyname="Database" narrative="The name of the database to connect to" expr="&quot;BluePrismDB&quot;" />
+      <input type="text" name="User" friendlyname="User" narrative="If appropriate, the login name to use to connect to SQL Server. If left empty, windows authentication using the current user will be used instead of SQL Server authentication" expr="" />
+      <input type="password" name="Password" friendlyname="Password" narrative="If appropriate, the password to use with the above login name to access SQL Server. Unused for windows authentication" expr="" />
+    </inputs>
+    <onsuccess>ec556524-e89a-404d-9839-ea599ccb994e</onsuccess>
+    <resource object="Data - SQL Server" action="Set Connection" />
+  </stage>
+  <stage stageid="6a571ca9-40f3-4c44-86a8-25d9e0254969" name="Data - SQL Server::Execute" type="Action">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="150" y="150" />
+    <inputs>
+      <input type="text" name="Query" friendlyname="Query" narrative="The SQL query to use to perform this action" expr="&quot;insert into [BluePrismDB].[dbo].[flipkartdata]&#xA;values(&#xA;'&quot;&amp;[Data.name]&amp;&quot;',&#xA;'&quot;&amp;[Data.price]&amp;&quot;',&#xA;'&quot;&amp;[Data.rating]&amp;&quot;'&#xA;)&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success (True) or failure (False)" stage="" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Error message giving detail regarding why this action failed" stage="" />
+    </outputs>
+    <onsuccess>81ca3949-e79b-4ddc-a130-57c2c4d4d5db</onsuccess>
+    <resource object="Data - SQL Server" action="Execute" />
+  </stage>
+  <stage stageid="ec556524-e89a-404d-9839-ea599ccb994e" name="Loop Start1" type="LoopStart">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit />
+    <display x="150" y="75" />
+    <onsuccess>6a571ca9-40f3-4c44-86a8-25d9e0254969</onsuccess>
+    <groupid>9f008b5a-75cd-4d45-ba2c-2d1dae76fcc8</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Data</loopdata>
+  </stage>
+  <stage stageid="81ca3949-e79b-4ddc-a130-57c2c4d4d5db" name="Loop End1" type="LoopEnd">
+    <subsheetid>d18998e7-b98a-4e37-b10e-6608803b4b77</subsheetid>
+    <loginhibit />
+    <display x="150" y="240" />
+    <onsuccess>4301157a-3d16-4f01-9e3f-801bfea12842</onsuccess>
+    <groupid>9f008b5a-75cd-4d45-ba2c-2d1dae76fcc8</groupid>
+  </stage>
+  <stage stageid="be9886f1-e1a6-4db7-a011-aa14caa36ac4" name="check null values" type="SubSheetInfo">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="b2721f4b-c78b-416a-85d5-9a8feb785d35" name="Start" type="Start">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>f2e571f3-cdcb-4d84-b21d-b11fbee9db9f</onsuccess>
+  </stage>
+  <stage stageid="3908d684-964d-4eb1-816f-4fa43e1e13fb" name="End" type="End">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="15" y="525" />
+  </stage>
+  <stage stageid="f2e571f3-cdcb-4d84-b21d-b11fbee9db9f" name="Adding Data in Excel Sheet" type="SubSheet">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="15" y="-45" />
+    <onsuccess>621d6465-80a8-4b08-811c-39946bc71321</onsuccess>
+    <processid>968104bf-5a0c-4d0e-b0bf-2341cce391a2</processid>
+  </stage>
+  <stage stageid="621d6465-80a8-4b08-811c-39946bc71321" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>190c1e9e-790c-48cf-b960-1ea747e6f055</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="190c1e9e-790c-48cf-b960-1ea747e6f055" name="Data - SQL Server::Set Connection" type="Action">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="90" />
+    <inputs>
+      <input type="text" name="Server" friendlyname="Server" narrative="The name of the server and, if necessary, instance name of the SQL Server instance to connect to" expr="&quot;LAPTOP-T69UTPHB\SQLEXPRESS&quot;" />
+      <input type="text" name="Database" friendlyname="Database" narrative="The name of the database to connect to" expr="&quot;BluePrismDB&quot;" />
+      <input type="text" name="User" friendlyname="User" narrative="If appropriate, the login name to use to connect to SQL Server. If left empty, windows authentication using the current user will be used instead of SQL Server authentication" expr="" />
+      <input type="password" name="Password" friendlyname="Password" narrative="If appropriate, the password to use with the above login name to access SQL Server. Unused for windows authentication" expr="" />
+    </inputs>
+    <onsuccess>13a1c1c4-49e1-48c8-90df-f166bd489819</onsuccess>
+    <resource object="Data - SQL Server" action="Set Connection" />
+  </stage>
+  <stage stageid="89f1a2df-ad3b-490f-8609-4f9bf29614d9" name="Data - SQL Server::Execute" type="Action">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="150" y="405" />
+    <inputs>
+      <input type="text" name="Query" friendlyname="Query" narrative="The SQL query to use to perform this action" expr="&quot;insert into [BluePrismDB].[dbo].[flipkartdata]&#xA;values(&#xA;'&quot;&amp;[Data.name]&amp;&quot;',&#xA;'&quot;&amp;[Data.price]&amp;&quot;',&#xA;'&quot;&amp;[Data.rating]&amp;&quot;'&#xA;)&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success (True) or failure (False)" stage="" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Error message giving detail regarding why this action failed" stage="" />
+    </outputs>
+    <onsuccess>88b5945e-2011-4390-848f-68b0c1063b28</onsuccess>
+    <resource object="Data - SQL Server" action="Execute" />
+  </stage>
+  <stage stageid="7ce7a173-be82-45ec-bfcc-4aeea1161525" name="Loop Start1" type="LoopStart">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="150" />
+    <onsuccess>a16f50cf-c09f-4fdc-8b92-82b4c40af27a</onsuccess>
+    <groupid>50275bb1-909b-4432-ad6f-c9936dcae4f8</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Data</loopdata>
+  </stage>
+  <stage stageid="fd94c088-1e26-48e4-beca-f4e24084888f" name="Loop End1" type="LoopEnd">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="525" />
+    <onsuccess>3908d684-964d-4eb1-816f-4fa43e1e13fb</onsuccess>
+    <groupid>50275bb1-909b-4432-ad6f-c9936dcae4f8</groupid>
+  </stage>
+  <stage stageid="727c5b18-1533-4183-80f0-d8b0bf06712d" name="Data" type="Collection">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <narrative>excel sheet data</narrative>
+    <display x="270" y="-30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="name" type="text" />
+      <field name="price" type="text" />
+      <field name="rating" type="text" />
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="name" type="text" value="" />
+        <field name="price" type="text" value="" />
+        <field name="rating" type="text" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="a16f50cf-c09f-4fdc-8b92-82b4c40af27a" name="check null values" type="Decision">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="210" />
+    <decision expression="[Data.name] &lt;&gt; &quot;&quot; AND&#xA;[Data.price] &lt;&gt; &quot;&quot; AND&#xA;[Data.rating] &lt;&gt; &quot;&quot;" />
+    <ontrue>f7e69bac-a275-450e-8db4-e332922d84ea</ontrue>
+    <onfalse>b5c02601-3624-461a-8a4e-8a8a100e0ca8</onfalse>
+  </stage>
+  <stage stageid="b5c02601-3624-461a-8a4e-8a8a100e0ca8" name="record is empty Exception" type="Exception">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <display x="270" y="210" />
+    <exception localized="yes" type="System" detail="&quot;collection record is empty&quot;" />
+  </stage>
+  <stage stageid="fff91860-9361-4865-95fc-7087e4e380b9" name="checking duplicate records" type="Decision">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="345" w="120" h="60" />
+    <decision expression="[Data.name] &lt;&gt; [DB-Collection.name] AND&#xA;[Data.price] &lt;&gt; [DB-Collection.price] AND&#xA;[Data.rating] &lt;&gt; [DB-Collection.rating]" />
+    <ontrue>89f1a2df-ad3b-490f-8609-4f9bf29614d9</ontrue>
+    <onfalse>7094896f-36e8-40bf-bcf6-937440edb0e2</onfalse>
+  </stage>
+  <stage stageid="13a1c1c4-49e1-48c8-90df-f166bd489819" name="Data - SQL Server::Get Collection" type="Action">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="150" />
+    <inputs>
+      <input type="text" name="SQL" friendlyname="SQL" narrative="The SQL query to use to perform this action" expr="&quot;select * from [BluePrismDB].[dbo].[flipkartdata]&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success (True) or failure (False)" stage="Success" />
+      <output type="text" name="Message" friendlyname="Message" narrative="Error message giving detail regarding why this action failed" stage="Message" />
+      <output type="collection" name="Results" friendlyname="Results" narrative="The collection of results from the query" stage="DB-Collection" />
+    </outputs>
+    <onsuccess>7ce7a173-be82-45ec-bfcc-4aeea1161525</onsuccess>
+    <resource object="Data - SQL Server" action="Get Collection" />
+  </stage>
+  <stage stageid="dd0ea14e-69d7-4d52-889a-d7e911a973eb" name="DB-Collection" type="Collection">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <narrative>data from database</narrative>
+    <display x="270" y="-75" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c1ec4954-2ef3-462a-af48-0d9800cbf719" name="Success" type="Data">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <display x="270" y="75" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ee7aefdc-2efb-4e90-ab73-8c94e68f5bcd" name="Message" type="Data">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <display x="270" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f7e69bac-a275-450e-8db4-e332922d84ea" name="Loop Start2" type="LoopStart">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="270" />
+    <onsuccess>fff91860-9361-4865-95fc-7087e4e380b9</onsuccess>
+    <groupid>39fc31f5-7226-4aea-9439-a6a42bb5a2a4</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>DB-Collection</loopdata>
+  </stage>
+  <stage stageid="88b5945e-2011-4390-848f-68b0c1063b28" name="Loop End2" type="LoopEnd">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <loginhibit />
+    <display x="150" y="465" />
+    <onsuccess>fd94c088-1e26-48e4-beca-f4e24084888f</onsuccess>
+    <groupid>39fc31f5-7226-4aea-9439-a6a42bb5a2a4</groupid>
+  </stage>
+  <stage stageid="7094896f-36e8-40bf-bcf6-937440edb0e2" name="duplicate record Exception" type="Exception">
+    <subsheetid>6aa18b17-1732-46d8-967a-e6e1147a4b13</subsheetid>
+    <display x="-15" y="345" />
+    <exception localized="yes" type="System" detail="&quot;duplicate records found&quot;" />
   </stage>
 </process>
